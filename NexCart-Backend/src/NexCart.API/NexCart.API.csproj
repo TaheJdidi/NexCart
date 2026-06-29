@@ -12,4 +12,14 @@
     <ProjectReference Include="..\NexCart.Infrastructure\NexCart.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="6.0.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="6.0.0" />
+  </ItemGroup>
+
 </Project>
