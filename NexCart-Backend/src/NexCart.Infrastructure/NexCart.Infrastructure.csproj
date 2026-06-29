@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net10.0</TargetFramework>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<RootNamespace>NexCart.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NexCart.Application\NexCart.Application.csproj" />
+    <ProjectReference Include="..\NexCart.Persistence\NexCart.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
