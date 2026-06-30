@@ -1,10 +1,14 @@
 <Solution>
-  <Project Path="src/NexCart.API/NexCart.API.csproj" />
-  <Project Path="src/NexCart.Application/NexCart.Application.csproj" />
-  <Project Path="src/NexCart.Contracts/NexCart.Contracts.csproj" />
-  <Project Path="src/NexCart.Domain/NexCart.Domain.csproj" />
-  <Project Path="src/NexCart.Infrastructure/NexCart.Infrastructure.csproj" />
-  <Project Path="src/NexCart.Persistence/NexCart.Persistence.csproj" />
-  <Project Path="tests/NexCart.IntegrationTests/NexCart.IntegrationTests.csproj" />
-  <Project Path="tests/NexCart.UnitTests/NexCart.UnitTests.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/NexCart.API/NexCart.API.csproj" />
+    <Project Path="src/NexCart.Application/NexCart.Application.csproj" />
+    <Project Path="src/NexCart.Contracts/NexCart.Contracts.csproj" />
+    <Project Path="src/NexCart.Domain/NexCart.Domain.csproj" />
+    <Project Path="src/NexCart.Infrastructure/NexCart.Infrastructure.csproj" />
+    <Project Path="src/NexCart.Persistence/NexCart.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/NexCart.IntegrationTests/NexCart.IntegrationTests.csproj" />
+    <Project Path="tests/NexCart.UnitTests/NexCart.UnitTests.csproj" />
+  </Folder>
 </Solution>
