@@ -1,8 +1,13 @@
-using NexCart.Infrastructure.Services;
+using NexCart.Application;
+using NexCart.Infrastructure;
+using NexCart.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services
+    .AddApplication()
+    .AddPersistence()
+    .AddInfrastructure();
 
 var app = builder.Build();
 
