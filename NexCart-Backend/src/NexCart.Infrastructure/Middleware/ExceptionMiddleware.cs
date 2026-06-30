@@ -23,11 +23,12 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            await HandleExceptionAsync(context, ex);
+            _logger.LogError(ex, "An unhandled exception occurred while processing request {Path}", context.Request.Path);
+            await HandleExceptionAsync(context, ex, _logger);
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception, ILogger<ExceptionMiddleware> logger)
     {
         context.Response.ContentType = "application/json";
 
@@ -46,26 +47,31 @@ public class ExceptionMiddleware
             case ArgumentException:
                 response.Status = StatusCodes.Status400BadRequest;
                 response.Title = "Invalid argument";
+                logger.LogWarning("Bad request: {Message}", exception.Message);
                 break;
 
             case KeyNotFoundException:
                 response.Status = StatusCodes.Status404NotFound;
                 response.Title = "Resource not found";
+                logger.LogWarning("Resource not found: {Message}", exception.Message);
                 break;
 
             case UnauthorizedAccessException:
                 response.Status = StatusCodes.Status401Unauthorized;
                 response.Title = "Unauthorized";
+                logger.LogWarning("Unauthorized access attempted: {Message}", exception.Message);
                 break;
 
             case InvalidOperationException:
                 response.Status = StatusCodes.Status400BadRequest;
                 response.Title = "Invalid operation";
+                logger.LogWarning("Invalid operation: {Message}", exception.Message);
                 break;
 
             default:
                 response.Status = StatusCodes.Status500InternalServerError;
                 response.Title = "Internal server error";
+                logger.LogError(exception, "Internal server error");
                 break;
         }
 
