@@ -6,10 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddApplication()
-    .AddPersistence()
-    .AddInfrastructure();
+    .AddPersistence(builder.Configuration)
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+// Add global exception handling middleware
+app.UseGlobalExceptionHandler();
 
 app.MapGet("/", () => "Hello World!");
 
