@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NexCart.Infrastructure.Middleware;
-using NexCart.Persistence;
 
 namespace NexCart.Infrastructure;
 

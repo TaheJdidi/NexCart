@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NexCart.Application\NexCart.Application.csproj" />
     <ProjectReference Include="..\NexCart.Infrastructure\NexCart.Infrastructure.csproj" />
+    <ProjectReference Include="..\NexCart.Persistence\NexCart.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

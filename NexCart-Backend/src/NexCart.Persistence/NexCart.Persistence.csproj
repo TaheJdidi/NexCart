@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NexCart.Domain\NexCart.Domain.csproj" />
+    <ProjectReference Include="..\NexCart.Application\NexCart.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
