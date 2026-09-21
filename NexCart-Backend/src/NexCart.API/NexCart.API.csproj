@@ -5,6 +5,7 @@
 	<Nullable>enable</Nullable>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<RootNamespace>NexCart.API</RootNamespace>
+    <UserSecretsId>6861ca00-1c3a-4d9c-a930-4ff4e4cf6b5b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
