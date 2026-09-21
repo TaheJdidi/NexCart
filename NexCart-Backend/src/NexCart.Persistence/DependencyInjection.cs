@@ -9,20 +9,19 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        try
-        {
-            var connectionString = configuration.GetConnectionString("DefaultConnection") ?? configuration["ConnectionStrings:DefaultConnection"];
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString, sqlOptions =>
-                    sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
-
-            return services;
-        }
-        catch (Exception)
+        if (string.IsNullOrWhiteSpace(connectionString))
         {
-            throw;
+            throw new InvalidOperationException(
+                "Connection string 'ConnectionStrings:DefaultConnection' is not configured. " +
+                "Set it with 'dotnet user-secrets set' for local development, or an environment variable in other environments.");
         }
-       
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(connectionString, sqlOptions =>
+                sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+
+        return services;
     }
 }
