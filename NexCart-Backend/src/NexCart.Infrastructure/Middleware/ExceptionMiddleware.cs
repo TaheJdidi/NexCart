@@ -1,4 +1,5 @@
 using System.Text.Json;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +24,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "An unhandled exception occurred while processing request {Path}", context.Request.Path);
+            // Each exception type is logged at its own level in HandleExceptionAsync
             await HandleExceptionAsync(context, ex, _logger);
         }
     }
@@ -43,6 +44,17 @@ public class ExceptionMiddleware
 
         switch (exception)
         {
+            case ValidationException validationException:
+                response.Status = StatusCodes.Status400BadRequest;
+                response.Title = "Validation failed";
+                response.Detail = "One or more validation errors occurred.";
+                // Keys are camelCased so the client can match them to its form fields
+                response.Errors = validationException.Errors
+                    .GroupBy(e => JsonNamingPolicy.CamelCase.ConvertName(e.PropertyName))
+                    .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).Distinct().ToArray());
+                logger.LogWarning("Validation failed for {Path}: {Errors}", context.Request.Path, response.Errors.Keys);
+                break;
+
             case ArgumentNullException:
             case ArgumentException:
                 response.Status = StatusCodes.Status400BadRequest;
@@ -90,4 +102,5 @@ public class ProblemDetails
     public int? Status { get; set; }
     public string? Detail { get; set; }
     public string? Instance { get; set; }
+    public IDictionary<string, string[]>? Errors { get; set; }
 }
