@@ -24,4 +24,27 @@
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="6.0.0" />
   </ItemGroup>
 
+  <!--
+    On 'dotnet publish', build the React app and ship it in wwwroot/ so a single App Service
+    serves both the frontend and the API from the same site (required by the SameSite=Strict
+    auth cookie). Pass -p:SkipFrontendBuild=true to publish the API alone.
+  -->
+  <PropertyGroup>
+    <FrontendRoot>$(MSBuildProjectDirectory)\..\..\..\NexCart-Frontend\nexcart-web\</FrontendRoot>
+  </PropertyGroup>
+
+  <Target Name="PublishFrontend" AfterTargets="ComputeFilesToPublish" Condition="'$(SkipFrontendBuild)' != 'true'">
+    <Exec WorkingDirectory="$(FrontendRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(FrontendRoot)" Command="npm run build" />
+
+    <ItemGroup>
+      <FrontendDistFiles Include="$(FrontendRoot)dist\**" />
+      <ResolvedFileToPublish Include="@(FrontendDistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
 </Project>

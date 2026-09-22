@@ -23,7 +23,12 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(connectionString, sqlOptions =>
-                sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+            {
+                sqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+                // Azure SQL has short transient outages, and a paused serverless database
+                // fails the first connection while it resumes, so retry instead of erroring
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
+            }));
 
         services.AddIdentityCore<ApplicationUser>(options =>
             {
