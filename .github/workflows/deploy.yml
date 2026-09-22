@@ -48,7 +48,8 @@ jobs:
     # Only from main, and only once the Azure variables below are configured in the repository
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.AZURE_WEBAPP_NAME != ''
     runs-on: ubuntu-latest
-    environment: production
+    # No 'environment:' here: the Azure identity created by Deployment Center trusts
+    # GitHub tokens for the main branch, and an environment would change the token's subject
     permissions:
       id-token: write # lets azure/login sign in with OpenID Connect, so no Azure password is stored
       contents: read
