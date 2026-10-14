@@ -9,6 +9,7 @@ namespace NexCart.UnitTests.Features.Auth;
 public class GetCurrentUserQueryHandlerTests
 {
     private readonly Mock<IIdentityService> _identityService = new();
+    private readonly Mock<IStoreRepository> _stores = new();
 
     [Fact]
     public async Task Returns_the_user_when_it_exists()
@@ -17,7 +18,7 @@ public class GetCurrentUserQueryHandlerTests
             .Setup(s => s.FindByIdAsync("user-1", It.IsAny<CancellationToken>()))
             .ReturnsAsync(new AuthUser("user-1", "taha@example.com", "Taha", "Jdidi"));
 
-        var result = await new GetCurrentUserQueryHandler(_identityService.Object)
+        var result = await new GetCurrentUserQueryHandler(_identityService.Object, _stores.Object)
             .Handle(new GetCurrentUserQuery("user-1"), CancellationToken.None);
 
         result.Email.Should().Be("taha@example.com");
@@ -30,7 +31,7 @@ public class GetCurrentUserQueryHandlerTests
             .Setup(s => s.FindByIdAsync("gone", It.IsAny<CancellationToken>()))
             .ReturnsAsync((AuthUser?)null);
 
-        var act = () => new GetCurrentUserQueryHandler(_identityService.Object)
+        var act = () => new GetCurrentUserQueryHandler(_identityService.Object, _stores.Object)
             .Handle(new GetCurrentUserQuery("gone"), CancellationToken.None);
 
         await act.Should().ThrowAsync<UnauthorizedAccessException>();

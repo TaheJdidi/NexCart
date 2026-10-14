@@ -4,13 +4,14 @@ using NexCart.Application.Mappings;
 
 namespace NexCart.Application.Features.Auth.Login;
 
-public sealed class LoginCommandHandler(IIdentityService identityService, IJwtTokenGenerator tokenGenerator)
+public sealed class LoginCommandHandler(IIdentityService identityService, IJwtTokenGenerator tokenGenerator, IStoreRepository stores)
     : IRequestHandler<LoginCommand, AuthResult>
 {
     public async Task<AuthResult> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await identityService.ValidateCredentialsAsync(request.Email.Trim(), request.Password, cancellationToken);
+        var ownedStores = await stores.ListOwnedByAsync(user.Id, cancellationToken);
 
-        return new AuthResult(user.ToResponse(), tokenGenerator.Generate(user));
+        return new AuthResult(user.ToResponse(ownedStores), tokenGenerator.Generate(user));
     }
 }

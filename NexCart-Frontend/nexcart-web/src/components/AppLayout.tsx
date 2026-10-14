@@ -37,6 +37,9 @@ export function AppLayout() {
               (user ? (
                 <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                   <Typography sx={{ display: { xs: 'none', sm: 'block' } }}>Hi, {user.firstName}</Typography>
+                  <Button component={RouterLink} to="/stores">
+                    My Stores
+                  </Button>
                   <Button variant="outlined" onClick={handleLogout} disabled={logout.isPending}>
                     Log out
                   </Button>

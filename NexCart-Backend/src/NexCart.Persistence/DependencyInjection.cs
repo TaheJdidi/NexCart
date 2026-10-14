@@ -5,6 +5,7 @@ using NexCart.Application.Features.Auth;
 using NexCart.Application.Interfaces;
 using NexCart.Persistence.Contexts;
 using NexCart.Persistence.Identity;
+using NexCart.Persistence.Repositories;
 
 namespace NexCart.Persistence;
 
@@ -44,6 +45,7 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<AppDbContext>();
 
         services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IStoreRepository, StoreRepository>();
 
         return services;
     }

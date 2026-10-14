@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--prefix", "NexCart-Frontend/nexcart-web", "--", "--port", "5173", "--strictPort"],
       "port": 5173
+    },
+    {
+      "name": "nexcart-api",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "NexCart-Backend/src/NexCart.API", "--launch-profile", "http"],
+      "port": 5296
     }
   ]
 }
