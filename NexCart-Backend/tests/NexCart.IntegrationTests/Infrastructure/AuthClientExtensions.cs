@@ -32,7 +32,7 @@ public static class AuthClientExtensions
     }
 
     // Includes the response body in the failure, which EnsureSuccessStatusCode would hide
-    private static async Task EnsureStatusAsync(HttpResponseMessage response, HttpStatusCode expected)
+    public static async Task EnsureStatusAsync(this HttpResponseMessage response, HttpStatusCode expected)
     {
         if (response.StatusCode != expected)
         {

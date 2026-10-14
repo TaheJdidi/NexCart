@@ -9,12 +9,13 @@ namespace NexCart.UnitTests.Features.Auth;
 public class LoginCommandHandlerTests
 {
     private readonly Mock<IIdentityService> _identityService = new();
+    private readonly Mock<IStoreRepository> _stores = new();
     private readonly Mock<IJwtTokenGenerator> _tokenGenerator = new();
     private readonly LoginCommandHandler _handler;
 
     public LoginCommandHandlerTests()
     {
-        _handler = new LoginCommandHandler(_identityService.Object, _tokenGenerator.Object);
+        _handler = new LoginCommandHandler(_identityService.Object, _tokenGenerator.Object, _stores.Object);
     }
 
     [Fact]

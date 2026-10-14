@@ -5,7 +5,7 @@ using NexCart.Contracts.Auth;
 
 namespace NexCart.Application.Features.Auth.GetCurrentUser;
 
-public sealed class GetCurrentUserQueryHandler(IIdentityService identityService)
+public sealed class GetCurrentUserQueryHandler(IIdentityService identityService, IStoreRepository stores)
     : IRequestHandler<GetCurrentUserQuery, UserResponse>
 {
     public async Task<UserResponse> Handle(GetCurrentUserQuery request, CancellationToken cancellationToken)
@@ -14,6 +14,6 @@ public sealed class GetCurrentUserQueryHandler(IIdentityService identityService)
         var user = await identityService.FindByIdAsync(request.UserId, cancellationToken)
             ?? throw new UnauthorizedAccessException("The user no longer exists.");
 
-        return user.ToResponse();
+        return user.ToResponse(await stores.ListOwnedByAsync(user.Id, cancellationToken));
     }
 }
