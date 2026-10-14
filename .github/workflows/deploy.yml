@@ -34,6 +34,10 @@ jobs:
       - name: Test backend
         run: dotnet test NexCart-Backend/tests/NexCart.UnitTests --configuration Release
 
+      # Boots the API against SQL Server in a Docker container (Testcontainers); the runner has Docker
+      - name: Integration test backend
+        run: dotnet test NexCart-Backend/tests/NexCart.IntegrationTests --configuration Release
+
       # Also builds the React app into wwwroot/ (PublishFrontend target in NexCart.API.csproj)
       - name: Publish API and frontend
         run: dotnet publish ${{ env.API_PROJECT }} --configuration Release --output ./publish
